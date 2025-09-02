@@ -6,11 +6,25 @@ from .models import Post
 
 from .forms import EmailPostForm,CommentForm
 
+from taggit.models import Tag
+
 class PostListView(ListView):
     model = Post
     template_name = 'blog/post/list.html'
     context_object_name = 'posts'
     paginate_by = 3
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        tag_slug = self.kwargs.get('tag_slug')
+        if tag_slug:
+            self.tag = get_object_or_404(Tag, slug=tag_slug)
+            queryset = queryset.filter(tags__in=[self.tag])
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = getattr(self, 'tag', None)
+        return context
 
 class PostDetailView(DetailView):
     model = Post
