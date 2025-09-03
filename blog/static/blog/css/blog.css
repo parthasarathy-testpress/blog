@@ -27,6 +27,31 @@ a:hover {
     padding: 0 20px 40px 20px;
 }
 
+#sidebar {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-top: 24px;
+    flex-direction: row; /* place sidebar on the right */
+}
+
+.layout #content {
+    flex: 1 1 auto;
+    margin: 0; /* override auto-centering when inside flex */
+}
+
+.layout #sidebar {
+    flex: 0 0 260px;
+}
+
 #content {
     background: #fff;
     border: 1px solid #e6e6e6;
@@ -155,4 +180,16 @@ input[type="submit"]:hover,
         padding: 0.3em 0.5em;
     }
     #content { padding: 16px; }
+}
+
+@media (max-width: 900px) {
+    .layout {
+        flex-direction: column; /* content first, sidebar below */
+    }
+    .layout #content {
+        margin: 0 0 16px 0;
+    }
+    .layout #sidebar {
+        flex-basis: auto;
+    }
 }

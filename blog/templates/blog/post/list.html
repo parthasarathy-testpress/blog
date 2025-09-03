@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
 
 {% block title %}My Blog{% endblock %}
 
@@ -26,4 +27,5 @@
   {% endfor %}
 
   {% include "blog/pagination.html" with page_obj=page_obj %}
+  <p>This is my blog. I've written {% total_posts %} posts so far.</p>
 {% endblock %}
