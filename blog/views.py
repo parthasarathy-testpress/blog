@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.core.mail import send_mail
+from django.db.models import Count
 
 from django.views.generic import ListView, DetailView
 from .models import Post
@@ -46,6 +47,11 @@ class PostDetailView(DetailView):
         context['comments'] = self.object.comments.filter(active=True)
         context['new_comment'] = None
         context['comment_form'] = CommentForm()
+        post = self.get_object()
+        post_tags_ids = post.tags.values_list('id', flat=True)
+        similar_posts = Post.objects.filter(tags__in=post_tags_ids).exclude(id=post.id)
+        similar_posts = (similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4])
+        context['similar_posts'] = similar_posts
         return context
     
     def post(self, request, *args, **kwargs):
