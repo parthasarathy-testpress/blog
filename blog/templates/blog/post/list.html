@@ -16,7 +16,7 @@
     <p class="date">
       Published {{ post.publish }} by {{ post.author }}
     </p>
-    {{ post.body|truncatewords:30|linebreaks }}
+    {{ post.body|markdown|truncatewords_html:30 }}
     Tags:
     {% for tag in post.tags.all %}
       <a href="{% url 'blog:post_list_by_tag' tag.slug %}">
