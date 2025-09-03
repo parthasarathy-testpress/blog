@@ -5,7 +5,7 @@
 
 {% block content %}
   <h1>My Blog</h1>
-
+  <a href="{% url 'blog:post_search' %}">Advanced Search</a>
   {% for post in posts %}
     <p class="tags"></p>
     <h2>
